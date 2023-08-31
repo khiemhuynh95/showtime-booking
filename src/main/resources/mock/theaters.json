@@ -1,0 +1,139 @@
+{
+    "theaters": [
+        {
+            "name": "AMC Barton Creek Square 14",
+            "distance": "4.0 mi",
+            "address": "2901 Capital Of Texas Hwy., Austin, TX 78746"
+        },
+        {
+            "name": "Regal Gateway",
+            "distance": "8.4 mi",
+            "address": "9700 Stonelake Blvd, Austin, TX 78759"
+        },
+        {
+            "name": "Cinemark Southpark Meadows",
+            "distance": "8.4 mi",
+            "address": "9900 S. IH-35 Service Rd. SB, Austin, TX 78748"
+        },
+        {
+            "name": "AMC DINE-IN Tech Ridge 10",
+            "distance": "10.7 mi",
+            "address": "12625 North Interstate Highway 35, Austin, TX 78753"
+        },
+        {
+            "name": "Moviehouse & Eatery by Cinépolis NW Austin",
+            "distance": "12.5 mi",
+            "address": "8300 N FM 620 Building B, Austin, TX 78726"
+        },
+        {
+            "name": "Cinemark Pflugerville 20 and XD",
+            "distance": "13.4 mi",
+            "address": "15436 F.M. 1825, Pflugerville, TX 78660"
+        },
+        {
+            "name": "Galaxy Theatres Austin",
+            "distance": "4.8 mi",
+            "address": "6700 Middle Fiskville Road, Austin, TX 78752"
+        },
+        {
+            "name": "Regal Westgate",
+            "distance": "4.3 mi",
+            "address": "4477 South Lamar Boulevard, Austin, TX 78745"
+        },
+        {
+            "name": "Regal Metropolitan",
+            "distance": "5.1 mi",
+            "address": "901 Little Texas Lane, Austin, TX 78745"
+        },
+        {
+            "name": "IPIC Theaters",
+            "distance": "9.0 mi",
+            "address": "3225 Amy Donovan Plaza, Austin, TX 78758"
+        },
+        {
+            "name": "Cinemark Hill Country Galleria",
+            "distance": "12.2 mi",
+            "address": "12812 Hill Country Boulevard, Bee Cave, TX 78738"
+        },
+        {
+            "name": "Southwest Theaters Lake Creek 7",
+            "distance": "13.6 mi",
+            "address": "Suite 1500 - 13729 Research Blvd, Austin, TX 78750"
+        },
+        {
+            "name": "Flix Brewhouse Round Rock",
+            "distance": "15.8 mi",
+            "address": "2200 South Interstate 35 - Hesters Crossing, Round Rock, TX 78681"
+        },
+        {
+            "name": "AMC NorthPark 15",
+            "distance": "6.5 mi",
+            "address": "Suite 3000 - 8687 North Central Expressway, Dallas, TX 75225"
+        },
+        {
+            "name": "Regal UA Galaxy - Dallas",
+            "distance": "9.6 mi",
+            "address": "11801 McCree Road, Dallas, TX 75238"
+        },
+        {
+            "name": "AMC DINE-IN Mesquite 30",
+            "distance": "9.9 mi",
+            "address": "19919 Lyndon B. Johnson Fairway, Mesquite, TX 75149"
+        },
+        {
+            "name": "Cinemark Dallas XD and IMAX",
+            "distance": "10.3 mi",
+            "address": "11819 Webb Chapel Road, Dallas, TX 75234"
+        },
+        {
+            "name": "AMC Theater - Village On The Parkway 9",
+            "distance": "12.1 mi",
+            "address": "Suite 220 - 5100 Belt Line Road, Addison, TX 75254"
+        },
+        {
+            "name": "Cinemark Grand Prairie",
+            "distance": "14.3 mi",
+            "address": "220 E. Westchester Parkway, Grand Prairie, TX 75052"
+        },
+        {
+            "name": "AMC Firewheel 18",
+            "distance": "14.3 mi",
+            "address": "100 Coneflower Drive, Garland, TX 75040"
+        },
+        {
+            "name": "Cinepolis Luxury Cinemas",
+            "distance": "1.1 mi",
+            "address": "2365 Victory Park Lane, Dallas, TX 75219"
+        },
+        {
+            "name": "LOOK Dine-in Cinemas Dallas",
+            "distance": "8.1 mi",
+            "address": "10110 Technology Boulevard, Dallas, TX 75220"
+        },
+        {
+            "name": "Studio Movie Grill",
+            "distance": "8.7 mi",
+            "address": "11170 N. Central Expressway, Dallas, TX 75243"
+        },
+        {
+            "name": "Cinemark Lancaster Movies 14",
+            "distance": "12.2 mi",
+            "address": "3250 W. Pleasant Run Road, Lancaster, TX 75146"
+        },
+        {
+            "name": "AMC Irving Mall 14",
+            "distance": "12.4 mi",
+            "address": "2433 Irving Mall, Irving, TX 75062"
+        },
+        {
+            "name": "Grand Prairie PREMIERE LUX 10 & Pizza Pub",
+            "distance": "14.0 mi",
+            "address": "510 East Westchester Parkway, Grand Prairie, TX 75052"
+        },
+        {
+            "name": "Cinemark Cedar Hill",
+            "distance": "15.6 mi",
+            "address": "280 Uptown Boulevard, Cedar Hill, TX 75104"
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+# Eclipse project files
+.classpath
+.project
+.settings/
+bin/
+# Eclipse IDE metadata
+.metadata/
+
+# Maven Eclipse Plugin
+target/
+/.env
