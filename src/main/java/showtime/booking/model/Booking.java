@@ -26,9 +26,6 @@ public class Booking {
 	 @Temporal(TemporalType.TIMESTAMP)
 	 private Date Timestamp;
 	 
-	 @Column(nullable = false)
-	 private Integer NumberOfSeats;
-	 
 	 @ManyToOne
 	 @JoinColumn(name = "UserID")
 	 private User User;
@@ -39,6 +36,19 @@ public class Booking {
 	 
 	 @OneToMany(mappedBy = "booking")
 	 private Set<ShowSeat> showSeats = new HashSet<>();
-	 
+
+	public Booking(User user, Show show, Date timestamp) {
+		super();
+		User = user;
+		Show = show;
+		Timestamp= timestamp;
+	}
+
+	public void setShowSeats(Set<ShowSeat> showSeats) {
+		this.showSeats = showSeats;
+	}
+	
+	public Booking() {}
+	
 	 
 }

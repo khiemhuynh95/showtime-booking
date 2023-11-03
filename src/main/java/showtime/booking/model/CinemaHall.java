@@ -14,26 +14,30 @@ public class CinemaHall {
 	@Column(nullable = false)
 	private String name;
 
-	@OneToOne(mappedBy = "CinemaHall", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Show show;
+	@OneToMany(mappedBy = "CinemaHall", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Show> shows;
 
 	@ManyToOne
 	@JoinColumn(name = "CinemaID")
 	private Cinema Cinema;
 
-	@OneToMany(mappedBy = "CinemaHall")
+	@OneToMany(mappedBy = "CinemaHall", fetch = FetchType.EAGER)
 	private Set<CinemaSeat> CinemaSeats = new HashSet<>();
 	
 	public CinemaHall(String name) {
 		this.name = name;
 	}
 	
-	public CinemaHall() {
-		
+	public String getName() {
+		return name;
 	}
 
-	public void setShow(Show show) {
-		this.show = show;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public CinemaHall() {
+		
 	}
 
 	public void setCinema(Cinema cinema) {
@@ -43,6 +47,16 @@ public class CinemaHall {
 	public String getCinema() {
 		return Cinema.getCinemaID() + "|" + Cinema.getName() + "|" + Cinema.getAddress();
 	}
+
+	public Set<CinemaSeat> getCinemaSeats() {
+		return CinemaSeats;
+	}
+
+	public void setCinemaSeats(Set<CinemaSeat> cinemaSeats) {
+		CinemaSeats = cinemaSeats;
+	}
+	
+	
 	
 	
 

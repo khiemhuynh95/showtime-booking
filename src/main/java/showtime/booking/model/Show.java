@@ -31,7 +31,7 @@ public class Show {
 	 @Temporal(TemporalType.TIME)
 	 private Date EndTime;
 	 
-	 @OneToOne(fetch = FetchType.LAZY)
+	 @ManyToOne
 	 @JoinColumn(name = "CinemaHallID")
 	 private CinemaHall CinemaHall;
 	 

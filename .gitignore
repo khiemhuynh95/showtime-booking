@@ -9,3 +9,6 @@ bin/
 # Maven Eclipse Plugin
 target/
 /.env
+
+# Logs
+logs/

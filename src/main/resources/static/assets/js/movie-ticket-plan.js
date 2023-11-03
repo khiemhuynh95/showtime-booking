@@ -1,38 +1,62 @@
 $(document).ready(function () {
-    // Nice Select
+    initializeNiceSelect();
+    initializeDateSelect();
+    initializeMovieDetails();
+    attachSearchButtonListener();
+});
+
+function initializeNiceSelect() {
     $.getScript("../assets/js/nice-select.js", function () {
         $(".select-bar").niceSelect();
     });
+}
 
-    //adjust the tabe
-    // // Get the width of the parent container
-    // var parentWidth = $("#ticket-table-container").width();
-
-    // // Set the child div's width to match the parent
-    // //$(".child-div").css("width", parentWidth);
-    // $(".seat-plan-wrapper").css("width", "100%");
-
-    //handle date list 
+function initializeDateSelect() {
     var dateSelect = $("#date-picker");
-
-    // Get the current date
     var currentDate = new Date();
 
-    // Loop to add the next 7 days
     for (var i = 0; i < 7; i++) {
         if (i != 0) {
-            // Increment the date by one day
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        // Format the date as dd/mm/yyyy
         var formattedDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
-
-        // Create an option element and append it to the select
         var option = $('<option>').val(formattedDate).text(formattedDate);
         dateSelect.append(option);
     }
+}
 
+function initializeMovieDetails() {
+    var queryString = window.location.search;
+    var urlParams = new URLSearchParams(queryString);
+    var movieId = urlParams.get("movie-id");
+
+    $.get("http://localhost:8080/movie/" + movieId, function (movie) {
+        $(".title").text(movie.title);
+        var bannerURL = movie.backdrops.slice(1, -1).split(",")[0].replace("w300", "w1280");
+        $(".bg_img").css("background-image", function () {
+            var bg = "url(" + bannerURL + ")";
+            return bg;
+        });
+    });
+}
+
+function attachSearchButtonListener() {
+    $("#search-button").click(function (event) {
+        event.preventDefault();
+        var cityInput = document.getElementById("city-input");
+        var inputValue = cityInput.value.trim();
+
+        if (inputValue === "") {
+            alert("Please enter a valid city name.");
+        } else {
+            var selectedDate = $("#date-picker :selected").text();
+            performSearch(inputValue, selectedDate);
+        }
+    });
+}
+
+function performSearch(city, date) {
     // Get the query parameter value from the URL
     var queryString = window.location.search;
     var urlParams = new URLSearchParams(queryString);
@@ -40,98 +64,70 @@ $(document).ready(function () {
     // Get the 'data' query parameter
     var movieId = urlParams.get("movie-id");
 
-    // Perform an AJAX request to fetch movie details from db using the movieId
-    $.get("http://localhost:8080/movie/" + movieId, function (movie) {
-        $(".title").text(movie.title);
-        // Remove the square brackets and split the string into individual URL strings
-        var bannerURL = movie.backdrops
-            .slice(1, -1)
-            .split(",")[0]
-            .replace("w300", "w1280");
-        $(".bg_img").css("background-image", function () {
-            var bg = "url(" + bannerURL + ")";
-            return bg;
+    //return new Promise(function (resolve, reject) {
+    $.get(`http://localhost:8080/show/movie-id=${movieId}?city=${city}&date=${date}`, function (shows) {
+        const rowsMap = new Map();
+
+        shows.forEach(function (show) {
+            var cinemaId = show.cinemaHall.cinema.split('|')[0];
+            var cinemaName = show.cinemaHall.cinema.split('|')[1];
+            var cinemaAddress = show.cinemaHall.cinema.split('|')[2];
+            var timeString = show.startTime;
+            var timeParts = timeString.split(":");
+            //get start time
+            var extractedTime = timeParts[0] + ":" + timeParts[1];
+            var timeItemHTML = `<a href="http://localhost:8080/movie-seat-plan.html?show-id=${show.showID}"><div class="item">${extractedTime}</div></a>`;
+
+            if (rowsMap.has(cinemaId)) {
+                console.log(`#${cinemaId} already exists`);
+                //load existing row and convert to Jquery obj
+                var $tempRow = $(rowsMap.get(cinemaId));
+                //console.log(`before: ${$tempRow.prop('outerHTML')}`);
+                var movieScheduleDiv = $tempRow.find('.movie-schedule');
+
+                //append new time
+                movieScheduleDiv.append(timeItemHTML);
+                var rowStr = $tempRow.prop('outerHTML');
+                //console.log(`after: ${$tempRow.prop('outerHTML')}`);
+
+                //update new row
+                rowsMap.set(cinemaId, rowStr);
+            } else {
+                //load movie-ticket-row template
+                var $movieTicketRow = $('<li class="movie-ticket-row">' +
+                    '<div class="movie-name">' +
+                    '<div class="icons">' +
+                    '<i class="far fa-heart"></i>' +
+                    '<i class="fas fa-heart"></i>' +
+                    '</div>' +
+                    '<a href="#0" class="name">{cinema-name}</a>' +
+                    '<div class="location-icon">' +
+                    '<i class="fas fa-map-marker-alt"></i>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="movie-schedule">' +
+                    '</div>' +
+                    '</li>');
+
+                $movieTicketRow.closest('.movie-ticket-row').attr('id', cinemaId);
+                var movieScheduleDiv = $movieTicketRow.find('.movie-schedule');
+                movieScheduleDiv.append(timeItemHTML);
+                var modifiedTemplateHTML = $movieTicketRow.prop('outerHTML');
+                var rowStr = modifiedTemplateHTML.replace("{cinema-name}", cinemaName);
+
+                rowsMap.set(cinemaId, rowStr);
+
+            }
+        });
+        //find the plan wrapper
+        var $ticketTable = $('.seat-plan-wrapper');
+
+        // Loop through the Map and print its elements
+        rowsMap.forEach((value, key) => {
+            //console.log(`Key: ${key}, Value: ${value}`);
+            $ticketTable.append($(value));
         });
     });
 
-    //add click event listener to search button
-    $("#search-button").click(function (event) {
-        // Prevent the default behavior of the anchor tag (e.g., navigating to a URL)
-        event.preventDefault();
+}
 
-        var cityInput = document.getElementById("city-input");
-
-        // Get the value of the input field
-        var inputValue = cityInput.value.trim(); // Use trim() to remove leading/trailing spaces
-
-        // Check if the input is empty
-        if (inputValue === "") {
-            alert("Please enter a valid city name.");
-        } else {
-            // The input is not empty, you can proceed with your search logic here
-            // Get the current selected value
-            var selectedDate = $("#date-picker :selected").text();
-            //alert(`zipcode: ${inputValue}, selected date: ${selectedDate}`);
-            $.get(`http://localhost:8080/show/movie-id=${movieId}?city=${inputValue}&date=${selectedDate}`, function (shows) {
-                //console.log(shows)
-                shows.forEach(function (show) {
-                    var cinemaId = show.cinemaHall.cinema.split('|')[0];
-                    var cinemaName = show.cinemaHall.cinema.split('|')[1];
-                    var cinemaAddress = show.cinemaHall.cinema.split('|')[2];
-                    // get startTime
-                    var timeString = show.startTime
-                    var timeParts = timeString.split(":");
-                    var extractedTime = timeParts[0] + ":" + timeParts[1];
-                    //build time item based on startTime
-                    var timeItemHTML = `<div class="item">${extractedTime}</div>`;
-
-
-                    //find the row with the id
-                    if ($(`#${cinemaId}`).length > 0) {
-                        //row exist
-                        console.log($(`#${cinemaId}`).prop('outerHTML'))
-                    } else {
-                        //no row -> insert
-                        $.get("../components/movie-ticket-row.html", function (template) {
-                            // Convert the HTML template into a jQuery object
-                            var $template = $(template);
-
-                            //assign id for row template
-                            $template.closest('.movie-ticket-row').attr('id', cinemaId);
-                            //find schedule div
-                            var movieScheduleDiv = $template.find('.movie-schedule');
-
-                            //insert time
-                            movieScheduleDiv.append(timeItemHTML)
-
-                            //console.log($template)
-
-                            var modifiedTemplateHTML = $template.prop('outerHTML');
-
-                            //insert row                            
-                            var rowStr = modifiedTemplateHTML
-                                .replace("{cinema-name}", cinemaName);
-                            //console.log(rowStr);
-                            $('.seat-plan-wrapper').append(rowStr);
-                        });
-                    }
-
-
-
-
-                });
-
-
-
-
-            });
-
-
-
-        }
-    });
-    //use movieId to query all its shows
-
-
-
-});

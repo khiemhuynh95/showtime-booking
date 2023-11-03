@@ -23,4 +23,9 @@ public class BookingsService {
     public Optional<Booking> findBooking(Long bookingId) {
         return Optional.empty();
     }
+
+	public void addBooking(Booking b) {
+		bookingsRepository.save(b);
+		
+	}
 }

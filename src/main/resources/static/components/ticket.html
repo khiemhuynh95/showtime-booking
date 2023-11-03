@@ -1,0 +1,65 @@
+<!--
+Inspired by: https://dribbble.com/shots/1166639-Movie-Ticket/attachments/152161
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Ticket</title>
+
+    <!-- Load CSS -->
+    <link rel="stylesheet" href="../assets/css/ticket.css">
+</head>
+
+<body>
+    <!-- Your HTML structure goes here -->
+    <div class="ticket">
+        <div class="holes-top"></div>
+        <div class="title">
+            <p class="cinema">{cinema-name} PRESENTS</p>
+            <p class="movie-title">{movie-title}</p>
+        </div>
+        <div class="poster">
+            <img src="{imgSrc}"
+                alt="Movie: {movie-title}" />
+        </div>
+        <div class="info">
+            <table>
+                <tr>
+                    <th>SCREEN</th>
+                    <th>ROW</th>
+                    <th>SEAT</th>
+                </tr>
+                <tr>
+                    <td class="bigger">18</td>
+                    <td class="bigger">{row}</td>
+                    <td class="bigger">{seat-number}</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th>PRICE</th>
+                    <th>DATE</th>
+                    <th>TIME</th>
+                </tr>
+                <tr>
+                    <td>${price}</td>
+                    <td>{date}</td>
+                    <td>{time}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="holes-lower"></div>
+        <div class="serial">
+            <table class="barcode">
+                <tr></tr>
+            </table>
+            <img src="../assets/images/ticket/barcode.png">
+        </div>
+    </div>
+
+</body>
+
+</html>

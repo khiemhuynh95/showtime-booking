@@ -32,22 +32,8 @@ public class ShowController {
 	@Autowired
 	private CinemasService cService;
 
-//	@GetMapping("/now_playing")
-//	public ResponseEntity<List<Movie>> getPlayingMovie() {
-//
-//		List<Movie> movies = mService.getMoviesByStatus(MovieStatus.NOW_PLAYING);
-//		return ResponseEntity.ok(movies);
-//	}
-//
-//	@GetMapping("/upcoming")
-//	public ResponseEntity<List<Movie>> getUpcomingMovie() {
-//
-//		List<Movie> movies = mService.getMoviesByStatus(MovieStatus.UPCOMING);
-//		return ResponseEntity.ok(movies);
-//	}
-
 	@GetMapping("/movie-id={movie-id}")
-	public List<Show> getShowBy(@PathVariable("movie-id") Long id, @RequestParam("city") String city,
+	public List<Show> getShowByMovieId(@PathVariable("movie-id") Long id, @RequestParam("city") String city,
 			@RequestParam("date") String date) {
 		System.out.println("movie: " + id + ", city: " + city + ", date: " + date);
 		//get a list of cinemas with zipcode
@@ -64,4 +50,10 @@ public class ShowController {
 		return sService.findShowBy(id, cinemaHalls, date);
 
 	}
+	
+	@GetMapping("/show-id={show-id}")
+	public Optional<Show> getShowById(@PathVariable("show-id") Long id) {
+		return sService.findShowBy(id);
+	}
+	
 }

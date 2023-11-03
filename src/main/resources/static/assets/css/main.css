@@ -4240,7 +4240,7 @@ input[type="submit"] {
   padding: 30px;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
-          justify-content: space-between;
+          justify-content: flex-start;
   width: 45%;
   border-right: 1px solid #11326f;
   -webkit-box-align: center;
@@ -4288,7 +4288,7 @@ input[type="submit"] {
   padding: 30px;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
-          justify-content: space-between;
+          justify-content: flex-start;
   margin: -5px;
 }
 

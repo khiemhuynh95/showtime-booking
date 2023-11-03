@@ -1,17 +1,22 @@
 package showtime.booking.datagen;
 
 import showtime.booking.enums.MovieStatus;
+import showtime.booking.enums.SeatStatus;
 import showtime.booking.model.Cinema;
 import showtime.booking.model.CinemaHall;
+import showtime.booking.model.CinemaSeat;
 import showtime.booking.model.Genre;
 import showtime.booking.model.Movie;
 import showtime.booking.model.MovieGenre;
 import showtime.booking.model.Show;
+import showtime.booking.model.ShowSeat;
 import showtime.booking.services.CinemaHallsService;
+import showtime.booking.services.CinemaSeatsService;
 import showtime.booking.services.CinemasService;
 import showtime.booking.services.GenresService;
 import showtime.booking.services.MovieGenreService;
 import showtime.booking.services.MoviesService;
+import showtime.booking.services.ShowSeatsService;
 import showtime.booking.services.ShowsService;
 import showtime.booking.util.ApiHelper;
 import showtime.booking.util.DateUtil;
@@ -28,7 +33,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,15 +52,20 @@ public class DataGenerator {
 	private static MovieGenreService mgService;
 	private static CinemaHallsService chService;
 	private static ShowsService sService;
+	private static CinemaSeatsService csService;
+	private static ShowSeatsService ssService;
 
 	public DataGenerator(MoviesService mService, GenresService gService, MovieGenreService mgService,
-			CinemasService cService, CinemaHallsService chService, ShowsService sService) {
+			CinemasService cService, CinemaHallsService chService, ShowsService sService, CinemaSeatsService csService,
+			ShowSeatsService ssService) {
 		this.mService = mService;
 		this.gService = gService;
 		this.mgService = mgService;
 		this.cService = cService;
 		this.chService = chService;
 		this.sService = sService;
+		this.csService = csService;
+		this.ssService = ssService;
 	}
 
 	public static void start() {
@@ -102,12 +115,20 @@ public class DataGenerator {
 					s.setCinemaHall(ch);
 					// set a random movie
 					Movie m = mService.getRandomNowPlaying();
-					//add duration to random show time to get endtime
+					// add duration to random show time to get endtime
 					Date endTime = DateUtil.calculateEndTime(randomShowtime, m.getDuration());
 					s.setMovie(m);
 					s.setEndTime(endTime);
 					// save show to db
 					sService.addShow(s);
+
+					// generate some showseats, set this show to them					
+					for(CinemaSeat seat : ch.getCinemaSeats()) {
+						ShowSeat showSeat = new ShowSeat(RandomData.seatStatus(), seat, s);
+						ssService.addShowSeat(showSeat);
+						
+					}
+
 				}
 
 			}
@@ -150,6 +171,21 @@ public class DataGenerator {
 
 	}
 
+	public static void initCinemaSeats(CinemaHall ch) {
+		// Define the row labels and the number of seats per row
+		String[] rowLabels = { "A", "B", "C", "D", "E", "F" };
+		int seatsPerRow = 14;
+
+		for (String row : rowLabels) {
+			for (int seatNumber = 1; seatNumber <= seatsPerRow; seatNumber++) {
+				CinemaSeat seat = new CinemaSeat(seatNumber, row);
+				seat.setCinemaHall(ch);
+				csService.addCinemaSeat(seat);
+			}
+		}
+
+	}
+
 	public static void populateCinemaHalls() {
 		// get list of cinemas from db
 		List<Cinema> cinemas = cService.getAllCinemas();
@@ -164,8 +200,12 @@ public class DataGenerator {
 
 				// add cinema to cinemahall
 				CinemaHall ch = new CinemaHall(hallName);
+
 				ch.setCinema(c);
+
 				chService.addCinemaHall(ch);
+				// init
+				initCinemaSeats(ch);
 			}
 		}
 	}

@@ -24,4 +24,8 @@ public class CinemaSeatsService {
 	public Optional<CinemaSeat> findCinemaSeat(Long CinemaSeatID){
 		return Optional.empty();
 	}
+	
+	public void addCinemaSeat(CinemaSeat cs) {
+		cinemaseatsRepository.save(cs);
+	}
 }

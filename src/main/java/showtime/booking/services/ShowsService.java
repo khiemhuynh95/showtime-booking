@@ -25,8 +25,8 @@ public class ShowsService {
 		return ShowsRepository.findAll();
 	}
 
-	public Optional<Show> findShow(Long ShowId) {
-		return Optional.empty();
+	public Optional<Show> findShowBy(Long id) {
+		return ShowsRepository.findById(id);
 	}
 
 	public void addShow(Show s) {

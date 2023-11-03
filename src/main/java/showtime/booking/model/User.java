@@ -12,9 +12,15 @@ public class User {
     private Long UserId;
     
     @Column(unique = true, nullable = false)
-    private String Email;
+    private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
+    private String firstName;
+    
+    @Column(nullable = true)
+    private String lastName;
+    
+    @Column(nullable = true)
     private String Password;
     
     @Column(unique = true, nullable = true)
@@ -22,5 +28,17 @@ public class User {
     
     @OneToMany(mappedBy = "User")
 	private Set<Booking> bookings = new HashSet<>();
+
+	public User(String email, String firstName, String lastName, String phone) {
+		super();
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		Phone = phone;
+	}
+
+
+    public User() {}
+    
 
 }

@@ -45,14 +45,15 @@ $(document).ready(function () {
         // Load movie data from the REST API
         $.get(apiURL, function (data) {
           // Iterate through the movie data and insert movie items
-          data.forEach(function (movie) {
-            // Load the movie item template
-            $.get("../components/movie-grid-item.html", function (template) {
+          // Load the movie item template
+          $.get("../components/movie-grid-item.html", function (template) {
+            data.forEach(function (movie) {
+
               // Replace placeholders in the template with movie data
               var movieItem = template
                 .replace("{{movieImage}}", movie.posterURL)
                 .replace("{{movieTitle}}", movie.title)
-                .replace("{{rating}}", `${movie.rating*10}%`);
+                .replace("{{rating}}", `${movie.rating * 10}%`);
 
               // Append the modified template to the tab slider
               tabSlider.trigger("add.owl.carousel", movieItem);

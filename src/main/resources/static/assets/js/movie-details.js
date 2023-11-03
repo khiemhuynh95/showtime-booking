@@ -104,13 +104,25 @@ $(document).ready(function () {
       $('#genre-tags').append($(htmlTag))
     })
 
-    //Navigate to ticket-plan html
-    $('.custom-button').on("click", function () {
-      window.location.href =
-        "../../movie-ticket-plan.html?movie-id=" + movie.movieID;
-    });
+    //if upcoming, dont show book ticket button
+    if (movie.status === "UPCOMING") {
+      // Disable the button
+      $("#book-tickets-button").prop("disabled", true);
+
+      // Change the text
+      $("#book-tickets-button").text("TICKETS COMING SOON");
+    } else {
+      //Navigate to ticket-plan html
+      $('#book-tickets-button').on("click", function () {
+        window.location.href =
+          "../../movie-ticket-plan.html?movie-id=" + movie.movieID;
+      });
+    }
+
+
 
 
   });
+
 
 });
